@@ -7,6 +7,8 @@ import QuizScreen from './screens/QuizScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import LoginScreen from './screens/LoginScreen';
 import SignUpScreen from './screens/SignupScreen';
+import QuizForm from './screens/QuizForm';
+import QuizList from './screens/QuizList';
 const StackNavigator = () => {
   const Stack = createNativeStackNavigator();
   return (
@@ -14,6 +16,8 @@ const StackNavigator = () => {
       <Stack.Navigator>
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Signup" component={SignUpScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="QuizForm" component={QuizForm} options={{ headerShown: false }} />
+        <Stack.Screen name="QuizList" component={QuizList} options={{ headerShown: false }} />
         <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Quiz" component={QuizScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Results" component={ResultsScreen} options={{ headerShown: false }} />

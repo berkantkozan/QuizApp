@@ -1,9 +1,16 @@
 import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import React from "react";
+import React, { useEffect, useState, useLayoutEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { database } from '../firebase';
+import { collection, doc, setDoc, getDoc, query, orderBy, onSnapshot } from "firebase/firestore";
 
 const HomeScreen = () => {
-    const navigation = useNavigation();
+  const navigation = useNavigation();
+  const [quizTitle, setQuizTitle] = useState('');
+
+
+
+
   return (
     <View style={{ marginTop: 15 }}>
       <Image
@@ -114,20 +121,49 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-
       <Pressable
-      onPress={() => navigation.navigate("Quiz")}
+        onPress={() => navigation.navigate("QuizList")}
         style={{
-          backgroundColor: "magenta",
+          backgroundColor: "black",
           padding: 14,
-          width:120,
+          width: 120,
           borderRadius: 25,
           marginLeft: "auto",
           marginRight: "auto",
           marginTop: 30,
         }}
       >
-        <Text style={{color:"white",fontWeight:"600",textAlign:"center"}}>Start Quiz</Text>
+        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>QuizList</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={() => navigation.navigate("QuizForm")}
+        style={{
+          backgroundColor: "magenta",
+          padding: 14,
+          width: 120,
+          borderRadius: 25,
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginTop: 30,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>quiz form</Text>
+      </Pressable>
+
+      <Pressable
+        onPress={() => navigation.navigate("Quiz")}
+        style={{
+          backgroundColor: "magenta",
+          padding: 14,
+          width: 120,
+          borderRadius: 25,
+          marginLeft: "auto",
+          marginRight: "auto",
+          marginTop: 30,
+        }}
+      >
+        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>Start Quiz</Text>
       </Pressable>
     </View>
   );
