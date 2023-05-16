@@ -102,6 +102,7 @@ const QuizScreen = ({ route }) => {
         style={{
           flexDirection: "row",
           alignItems: "center",
+          marginTop:'10%',
           justifyContent: "space-between",
           padding: 10,
         }}

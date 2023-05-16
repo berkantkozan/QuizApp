@@ -19,6 +19,7 @@ const ResultsScreen = () => {
         style={{
           flexDirection: "row",
           alignItems: "center",
+          marginTop:'10%',
           justifyContent: "space-between",
         }}
       >
@@ -55,7 +56,7 @@ const ResultsScreen = () => {
       <Pressable
         style={{
           backgroundColor: "white",
-          height: 220,
+          height: '60%',
           borderRadius: 7,
           marginTop: 20,
         }}
@@ -104,7 +105,7 @@ const ResultsScreen = () => {
             margin: 10,
           }}
         >
-          RESULT : {route.params.points} / 100 POINTS
+          RESULT : {route.params.points} / 100 Points
         </Text>
 
         <Pressable style={{ backgroundColor: "green", padding: 8, marginLeft: "auto", marginRight: "auto", marginBottom: 20, borderRadius: 5 }}>

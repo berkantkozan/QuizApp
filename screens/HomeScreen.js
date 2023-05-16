@@ -1,14 +1,25 @@
-import { StyleSheet, Text, View, Image, Pressable } from "react-native";
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { database } from '../firebase';
-import { collection, doc, setDoc, getDoc, query, orderBy, onSnapshot } from "firebase/firestore";
+import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
+import { FontAwesome } from '@expo/vector-icons';
 
 const HomeScreen = () => {
   const navigation = useNavigation();
   const [quizTitle, setQuizTitle] = useState('');
 
-
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        // Logout successful
+        navigation.navigate('Login');
+      })
+      .catch((error) => {
+        // An error occurred during logout
+        console.error('Error during logout:', error);
+      });
+    }
 
 
   return (
@@ -121,50 +132,17 @@ const HomeScreen = () => {
           </View>
         </View>
       </View>
-      <Pressable
-        onPress={() => navigation.navigate("QuizList")}
-        style={{
-          backgroundColor: "black",
-          padding: 14,
-          width: 120,
-          borderRadius: 25,
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: 30,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>QuizList</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate("QuizForm")}
-        style={{
-          backgroundColor: "magenta",
-          padding: 14,
-          width: 120,
-          borderRadius: 25,
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: 30,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>quiz form</Text>
-      </Pressable>
-
-      <Pressable
-        onPress={() => navigation.navigate("Quiz")}
-        style={{
-          backgroundColor: "magenta",
-          padding: 14,
-          width: 120,
-          borderRadius: 25,
-          marginLeft: "auto",
-          marginRight: "auto",
-          marginTop: 30,
-        }}
-      >
-        <Text style={{ color: "white", fontWeight: "600", textAlign: "center" }}>Start Quiz</Text>
-      </Pressable>
+      <View style={{  flexDirection: 'row', justifyContent: 'center',alignItems: 'center', marginTop:'35%' ,marginBottom: 20, width:'100%' }}>
+        <TouchableOpacity onPress={() => navigation.navigate('QuizForm')} style={{ marginRight: '15%', marginLeft:'15%' }}>
+          <FontAwesome name="plus" size={70} color="#F88379" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('QuizList')} style={{ marginRight: '15%' }}>
+          <FontAwesome name="list" size={70} color="#F88379" />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout}style={{ marginRight: '15%' }}>
+          <FontAwesome name="sign-out" size={70} color="#F88379" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

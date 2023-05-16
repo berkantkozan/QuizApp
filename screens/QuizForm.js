@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Button, Picker, StyleSheet } from 'react-native';
+import { View, TextInput, Text, TouchableOpacity, Pressable, StyleSheet } from 'react-native';
 import { auth, database } from '../firebase';
 import { collection, addDoc } from "firebase/firestore";
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 
 const saveQuizData = async (quizData) => {
     try {
@@ -15,6 +18,7 @@ const saveQuizData = async (quizData) => {
 
 
 const QuizForm = () => {
+    const navigation = useNavigation();
     const [question, setQuestion] = useState('');
     const [title, setTitle] = useState('');
     const [questions, setQuestions] = useState([]);
@@ -89,6 +93,15 @@ const QuizForm = () => {
     };
     return (
         <View style={styles.container}>
+            <View style={{ flexDirection: 'row', width: '100%' }}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')} style={{ alignItems:"flex-start", width:"50%", marginRight: 10 }}>
+                    <FontAwesome name="home" size={30} color="#F88379" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('QuizList')}style={{ alignItems:"flex-end", width:"50%", marginRight: 10 }}>
+                    <FontAwesome name="list" size={30} color="#F88379" />
+                </TouchableOpacity>
+            </View>
+            <Text style={styles.pageTitle}>ADD YOUR QUIZ</Text>
             <TextInput
                 value={title}
                 style={styles.titleInput}
@@ -118,15 +131,53 @@ const QuizForm = () => {
             <Picker
                 selectedValue={correctAnswerIndex}
                 style={styles.picker}
-                onValueChange={(value) => setCorrectAnswerIndex(value)}
+                onValueChange={(value) => setCorrectAnswerIndex(parseInt(value))}
             >
                 <Picker.Item label="Select correct answer" value={null} />
                 {options.map((option, index) => (
                     <Picker.Item key={index} label={option.options} value={index} />
                 ))}
             </Picker>
-            <Button onPress={() => handleAddQuestion({ question, options, correctAnswerIndex })} title="Add new question" />
-            <Button onPress={handleFormSubmit} title="Save Quiz Data" />
+            <View style={{ display: 'flex', flexDirection: 'row', width: "100%" }}>
+                <View style={{ alignItems: 'flex-start', width: "50%" }}>
+                    <Pressable
+                        onPress={handleFormSubmit}
+                        style={{
+                            backgroundColor: '#4CAF50',
+                            paddingHorizontal: 20,
+                            paddingVertical: 10,
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginBottom: 10,
+                        }}>
+                        <Text style={{
+                            color: 'white',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                        }}>Save Quiz </Text>
+                    </Pressable>
+                </View>
+                <View style={{ alignItems: 'flex-end', width: "50%" }}>
+                    <Pressable
+                        onPress={() => handleAddQuestion({ question, options, correctAnswerIndex })}
+                        style={{
+                            backgroundColor: '#4CAF50',
+                            paddingHorizontal: 20,
+                            paddingVertical: 10,
+                            borderRadius: 5,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            marginBottom: 10,
+                        }} >
+                        <Text style={{
+                            color: 'white',
+                            fontSize: 16,
+                            fontWeight: 'bold',
+                        }}>add question</Text>
+                    </Pressable>
+                </View>
+            </View>
         </View>
     );
 };
@@ -134,9 +185,14 @@ const QuizForm = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        marginTop:'10%',
         alignItems: 'center',
         padding: 20,
+    },
+    pageTitle: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        margin: 5,
     },
     titleInput: {
         width: '100%',
@@ -147,8 +203,8 @@ const styles = StyleSheet.create({
         borderColor: 'gray',
     },
     questionInput: {
-        width: '100%',
         height: 80,
+        flex: 1,
         paddingHorizontal: 10,
         borderWidth: 1,
         borderColor: 'gray',
